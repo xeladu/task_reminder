@@ -1,6 +1,7 @@
 import 'package:task_reminder/style/app_colors.dart';
 import 'package:task_reminder/style/text_styles.dart';
 import 'package:task_reminder/views/task_edit_view/task_edit_view_model.dart';
+import 'package:task_reminder/views/task_edit_view/utils/task_validation_exception.dart';
 import 'package:task_reminder/widgets/wrapper_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -58,8 +59,13 @@ class _State extends State<TaskEditView> {
                         ])),
                     ElevatedButton(
                         onPressed: () async {
-                          await widget.viewModel.save();
-                          Navigator.pop(context);
+                          try {
+                            await widget.viewModel.save();
+                            Navigator.pop(context);
+                          } on TaskValidationException catch (ex) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(ex.message)));
+                          }
                         },
                         child: Row(children: [
                           const Icon(Icons.check),
@@ -77,7 +83,10 @@ class _State extends State<TaskEditView> {
       Container(height: 10),
       TextField(
         controller: _titleController,
-        decoration: const InputDecoration(label: Text("Title")),
+        decoration: InputDecoration(
+            label: const Text("Title"),
+            helperText: "Required field!",
+            helperStyle: TextStyle(color: AppColors.negative)),
         onChanged: (value) {
           widget.viewModel.title = value;
         },

@@ -60,4 +60,8 @@ class Task extends Equatable {
   @override
   List<Object?> get props =>
       [id, title, description, created, configuration, reminders];
+
+  bool isValid() {
+    return title.isNotEmpty;
+  }
 }

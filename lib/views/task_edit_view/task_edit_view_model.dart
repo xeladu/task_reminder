@@ -1,3 +1,4 @@
+import 'package:task_reminder/constants/errors.dart';
 import 'package:task_reminder/database/database_service.dart';
 import 'package:task_reminder/database/models/skip_configuration.dart';
 import 'package:task_reminder/database/models/task.dart';
@@ -5,6 +6,7 @@ import 'package:task_reminder/database/models/task_reminder.dart';
 import 'package:task_reminder/database/models/task_reminder_configuration.dart';
 import 'package:task_reminder/notification/reminder_service.dart';
 import 'package:get/get.dart';
+import 'package:task_reminder/views/task_edit_view/utils/task_validation_exception.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class TaskEditViewModel {
@@ -57,6 +59,10 @@ class TaskEditViewModel {
                 saturday: skipSaturdays,
                 sunday: skipSundays)),
         reminders: task?.reminders ?? <TaskReminder>[]);
+
+    if (!newTask.isValid()) {
+      throw TaskValidationException(taskCreationEditError);
+    }
 
     Get.find<ReminderService>().fillReminders(newTask);
 
