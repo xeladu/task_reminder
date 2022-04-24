@@ -12,6 +12,10 @@ Task Reminder is an app to create and task recurring tasks on a daily basis. You
 - Storage on local device
 - No data collection
 
+## Apps
+
+You need to download the code and the compile the app yourself. Connect your device and run the command `flutter build apk` (Android) or `flutter build ios` (iOS) followed by a `flutter run`. The app will be deployed on your phone and is ready to use. More information can be found [here](https://docs.flutter.dev/get-started/test-drive?tab=terminal).
+
 ## History
 
 The app was initially developed during a blog series documenting the implementation process of a Flutter application from scratch. The original code is still available as well as all related blog posts. If you are interested, check out the [original repository](https://github.com/xeladu/flutter_task_reminder).
