@@ -46,6 +46,7 @@ dependencies:
   flutter_native_timezone: ^2.0.0
   percent_indicator: ^4.0.0
   timeago: ^3.2.2
+  font_awesome_flutter: ^10.1.0
 
 dev_dependencies:
   flutter_test:

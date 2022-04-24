@@ -1,3 +1,4 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:task_reminder/database/models/task.dart';
 import 'package:task_reminder/navigation/navigation_service.dart';
 import 'package:task_reminder/navigation/route_generator.dart';
@@ -59,16 +60,13 @@ class _State extends ConsumerState<HomeView> {
         bottomNavigationBar: BottomAppBar(
             color: AppColors.taskBackground,
             child: AppBarButton(
-                icon: Icons.add,
+                icon: FontAwesomeIcons.plus,
                 onPressed: () async {
                   await widget.viewModel.addNewTask(ref);
                   ref.refresh(taskListProvider);
                 })),
         body: data.isEmpty
-            ? const Center(
-                child: Text(
-                    "No data found!\r\nCreate your first task right now!",
-                    textAlign: TextAlign.center))
+            ? _buildEmptyDataContent()
             : Stack(children: [
                 Padding(
                     padding: const EdgeInsets.fromLTRB(10, 40, 10, 10),
@@ -114,6 +112,16 @@ class _State extends ConsumerState<HomeView> {
                         ])),
                 _buildUpdateIndicator()
               ]));
+  }
+
+  Widget _buildEmptyDataContent() {
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      FaIcon(FontAwesomeIcons.triangleExclamation,
+          size: 48, color: AppColors.warning),
+      Container(height: 10),
+      Text("No data found!\r\nCreate your first task right now!",
+          style: TextStyles.heading, textAlign: TextAlign.center)
+    ]);
   }
 
   Widget _buildUpdateIndicator() {
