@@ -23,6 +23,7 @@ void main() {
         configuration: TaskReminderConfiguration(
             enabled: true,
             recurringInterval: const Duration(days: 1),
+            maxScheduledNotificationCount: 1,
             initialDate: initialDate,
             skipOn: const SkipConfiguration.empty()),
         reminders: <TaskReminder>[]);
@@ -62,6 +63,7 @@ void main() {
         configuration: TaskReminderConfiguration(
             enabled: true,
             recurringInterval: const Duration(days: 1),
+            maxScheduledNotificationCount: 1,
             initialDate: initialDate,
             skipOn: const SkipConfiguration(
                 monday: false,
@@ -108,6 +110,7 @@ void main() {
         configuration: TaskReminderConfiguration(
             enabled: true,
             recurringInterval: const Duration(days: 1),
+            maxScheduledNotificationCount: 1,
             initialDate: initialDate,
             skipOn: const SkipConfiguration(
                 monday: false,
@@ -169,6 +172,7 @@ void main() {
         configuration: TaskReminderConfiguration(
             enabled: true,
             recurringInterval: const Duration(days: 1),
+            maxScheduledNotificationCount: 1,
             initialDate: initialDate,
             skipOn: SkipConfiguration(
                 monday: tomorrow == 1,

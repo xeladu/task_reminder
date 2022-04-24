@@ -23,6 +23,7 @@ class TaskEditViewModel {
   late bool skipSaturdays;
   late bool skipSundays;
   late bool enabled;
+  late int maxScheduledNotificationCount;
 
   TaskEditViewModel(this.task, {int? newId}) {
     id = newId ?? task?.id as int;
@@ -30,6 +31,8 @@ class TaskEditViewModel {
     description = task?.description ?? "";
     firstExecution = task?.configuration.initialDate ??
         tz.TZDateTime.now(tz.local).add(const Duration(minutes: 2));
+    maxScheduledNotificationCount =
+        task?.configuration.maxScheduledNotificationCount ?? 1;
     skipMondays = task?.configuration.skipOn.monday ?? false;
     skipTuesdays = task?.configuration.skipOn.tuesday ?? false;
     skipWednesdays = task?.configuration.skipOn.wednesday ?? false;
@@ -49,6 +52,7 @@ class TaskEditViewModel {
         configuration: TaskReminderConfiguration(
             enabled: enabled,
             initialDate: firstExecution,
+            maxScheduledNotificationCount: maxScheduledNotificationCount,
             recurringInterval: const Duration(days: 1),
             skipOn: SkipConfiguration(
                 monday: skipMondays,

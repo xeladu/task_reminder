@@ -36,6 +36,26 @@ class ReminderService {
 
       latestScheduledReminder = nextScheduledReminder;
     }
+
+    // create additional reminders according to the setting maxScheduledNotificationCount
+    var additionalCount = task.configuration.maxScheduledNotificationCount;
+
+    while (additionalCount > 0) {
+      var nextScheduledReminder = latestScheduledReminder.add(interval);
+
+      // if the new date is configured to be skipped, then no reminder is created
+      if (_isSkipDay(nextScheduledReminder, task)) {
+        latestScheduledReminder = nextScheduledReminder;
+        continue;
+      }
+
+      // create a new reminder according to the recurringInterval
+      _createReminder(task, nextScheduledReminder);
+
+      latestScheduledReminder = nextScheduledReminder;
+
+      additionalCount--;
+    }
   }
 
   void _createReminder(Task task, tz.TZDateTime scheduledOn) {

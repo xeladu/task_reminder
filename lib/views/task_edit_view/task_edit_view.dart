@@ -44,6 +44,8 @@ class _State extends State<TaskEditView> {
               Container(height: 20),
               _buildTaskReminderWidget(),
               Container(height: 20),
+              _buildTaskReminderNotificationSelectorWidget(),
+              Container(height: 20),
               _buildTaskSkipOptionsWidget(),
               Container(height: 20),
               WrapperWidget(
@@ -123,6 +125,42 @@ class _State extends State<TaskEditView> {
                 color: AppColors.taskBackground))
       ]),
       Text("Reminders will be scheduled daily",
+          style: TextStyles.taskDescription)
+    ]));
+  }
+
+  Widget _buildTaskReminderNotificationSelectorWidget() {
+    return WrapperWidget(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text("How many reminders to schedule?", style: TextStyles.heading),
+      DropdownButtonHideUnderline(
+          child: DropdownButton<int>(
+              isExpanded: true,
+              value: widget.viewModel.maxScheduledNotificationCount,
+              onChanged: (value) {
+                if (value == null) return;
+                setState(() {
+                  widget.viewModel.maxScheduledNotificationCount = value;
+                });
+              },
+              items: const [
+            DropdownMenuItem(
+                key: Key("1"), value: 1, child: Text("Just the next reminder")),
+            DropdownMenuItem(
+                key: Key("2"), value: 2, child: Text("The next 2 reminders")),
+            DropdownMenuItem(
+                key: Key("3"), value: 3, child: Text("The next 3 reminders")),
+            DropdownMenuItem(
+                key: Key("4"), value: 4, child: Text("The next 4 reminders")),
+            DropdownMenuItem(
+                key: Key("5"), value: 5, child: Text("The next 5 reminders")),
+            DropdownMenuItem(
+                key: Key("6"), value: 6, child: Text("The next 6 reminders")),
+            DropdownMenuItem(
+                key: Key("7"), value: 7, child: Text("The next 7 reminders")),
+          ])),
+      Text(
+          "Amount of reminder notifications that will be scheduled in advance. Default is 1. Notifications are rescheduled on every app launch.",
           style: TextStyles.taskDescription)
     ]));
   }

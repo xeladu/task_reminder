@@ -17,6 +17,7 @@ void main() {
         "configuration": {
             "initialDate": "20220220T200000+0100",
             "recurringInterval": 1,
+            "maxScheduledNotificationCount": 1,
             "enabled": true,
             "skipOn": {
                 "monday": false,
@@ -62,6 +63,7 @@ void main() {
         "configuration": {
             "initialDate": null,
             "recurringInterval": null,
+            "maxScheduledNotificationCount": null,
             "enabled": false,
             "skipOn": {}
         },
@@ -79,6 +81,7 @@ void main() {
     expect(
         DateTime.utc(2022, 02, 20, 19, 0, 0), task.configuration.initialDate);
     expect(86400, task.configuration.recurringInterval!.inSeconds);
+    expect(1, task.configuration.maxScheduledNotificationCount);
     expect(true, task.configuration.enabled);
     expect(false, task.configuration.skipOn.monday);
     expect(false, task.configuration.skipOn.tuesday);
@@ -113,6 +116,7 @@ void main() {
     expect(DateTime.utc(2022, 02, 20, 19, 0, 0), task.created);
     expect(null, task.configuration.initialDate);
     expect(null, task.configuration.recurringInterval);
+    expect(1, task.configuration.maxScheduledNotificationCount);
     expect(false, task.configuration.enabled);
     expect(false, task.configuration.skipOn.monday);
     expect(false, task.configuration.skipOn.tuesday);
@@ -133,6 +137,7 @@ void main() {
         configuration: TaskReminderConfiguration(
             enabled: true,
             initialDate: tz.TZDateTime.now(tz.local),
+            maxScheduledNotificationCount: 1,
             recurringInterval: const Duration(days: 1),
             skipOn: const SkipConfiguration.empty()),
         reminders: <TaskReminder>[
