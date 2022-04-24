@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:app_example/database/models/task.dart';
+import 'package:task_reminder/database/models/task.dart';
 import 'package:hive/hive.dart';
 
 class DatabaseService {

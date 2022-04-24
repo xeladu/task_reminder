@@ -1,7 +1,7 @@
-import 'package:app_example/style/app_colors.dart';
-import 'package:app_example/style/text_styles.dart';
-import 'package:app_example/views/task_edit_view/task_edit_view_model.dart';
-import 'package:app_example/widgets/wrapper_widget.dart';
+import 'package:task_reminder/style/app_colors.dart';
+import 'package:task_reminder/style/text_styles.dart';
+import 'package:task_reminder/views/task_edit_view/task_edit_view_model.dart';
+import 'package:task_reminder/widgets/wrapper_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;

@@ -1,4 +1,4 @@
-import 'package:app_example/database/database_service.dart';
+import 'package:task_reminder/database/database_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 

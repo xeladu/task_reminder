@@ -1,9 +1,9 @@
-import 'package:app_example/database/database_service.dart';
-import 'package:app_example/database/models/task.dart';
-import 'package:app_example/database/models/task_reminder.dart';
-import 'package:app_example/navigation/navigation_service.dart';
-import 'package:app_example/navigation/route_generator.dart';
-import 'package:app_example/providers/single_task_provider.dart';
+import 'package:task_reminder/database/database_service.dart';
+import 'package:task_reminder/database/models/task.dart';
+import 'package:task_reminder/database/models/task_reminder.dart';
+import 'package:task_reminder/navigation/navigation_service.dart';
+import 'package:task_reminder/navigation/route_generator.dart';
+import 'package:task_reminder/providers/single_task_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 

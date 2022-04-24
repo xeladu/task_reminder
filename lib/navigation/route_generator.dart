@@ -1,10 +1,10 @@
-import 'package:app_example/views/error_view/error_view.dart';
-import 'package:app_example/views/home_view/home_view.dart';
-import 'package:app_example/views/home_view/home_view_model.dart';
-import 'package:app_example/views/task_edit_view/task_edit_view.dart';
-import 'package:app_example/views/task_edit_view/task_edit_view_model.dart';
-import 'package:app_example/views/task_view/task_view.dart';
-import 'package:app_example/views/task_view/task_view_model.dart';
+import 'package:task_reminder/views/error_view/error_view.dart';
+import 'package:task_reminder/views/home_view/home_view.dart';
+import 'package:task_reminder/views/home_view/home_view_model.dart';
+import 'package:task_reminder/views/task_edit_view/task_edit_view.dart';
+import 'package:task_reminder/views/task_edit_view/task_edit_view_model.dart';
+import 'package:task_reminder/views/task_view/task_view.dart';
+import 'package:task_reminder/views/task_view/task_view_model.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {

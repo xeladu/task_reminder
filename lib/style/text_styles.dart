@@ -1,4 +1,4 @@
-import 'package:app_example/style/app_colors.dart';
+import 'package:task_reminder/style/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class TextStyles {

@@ -1,9 +1,9 @@
-import 'package:app_example/database/database_service.dart';
-import 'package:app_example/database/models/skip_configuration.dart';
-import 'package:app_example/database/models/task.dart';
-import 'package:app_example/database/models/task_reminder.dart';
-import 'package:app_example/database/models/task_reminder_configuration.dart';
-import 'package:app_example/notification/reminder_service.dart';
+import 'package:task_reminder/database/database_service.dart';
+import 'package:task_reminder/database/models/skip_configuration.dart';
+import 'package:task_reminder/database/models/task.dart';
+import 'package:task_reminder/database/models/task_reminder.dart';
+import 'package:task_reminder/database/models/task_reminder_configuration.dart';
+import 'package:task_reminder/notification/reminder_service.dart';
 import 'package:get/get.dart';
 import 'package:timezone/timezone.dart' as tz;
 

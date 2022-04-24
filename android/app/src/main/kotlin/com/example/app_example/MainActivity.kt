@@ -1,4 +1,4 @@
-package com.example.app_example
+package com.task_reminder
 
 import io.flutter.embedding.android.FlutterActivity
 

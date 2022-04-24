@@ -1,6 +1,6 @@
 {
-    "name": "app_example",
-    "short_name": "app_example",
+    "name": "task_reminder",
+    "short_name": "task_reminder",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

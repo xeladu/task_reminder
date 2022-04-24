@@ -14,7 +14,7 @@ Task Reminder is an app to create and task recurring tasks on a daily basis. You
 
 ## History
 
-The app was initially developed during a blog series documenting the implementation process of a Flutter application from scratch. The original code is still available as well as all related blog posts. If you are interested, check out the [original repository](https://github.com/xeladu/flutter_app_example).
+The app was initially developed during a blog series documenting the implementation process of a Flutter application from scratch. The original code is still available as well as all related blog posts. If you are interested, check out the [original repository](https://github.com/xeladu/flutter_task_reminder).
 
 ## Support
 

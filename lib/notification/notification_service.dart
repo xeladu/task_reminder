@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:app_example/database/models/task.dart';
-import 'package:app_example/database/models/task_reminder.dart';
+import 'package:task_reminder/database/models/task.dart';
+import 'package:task_reminder/database/models/task_reminder.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tz;

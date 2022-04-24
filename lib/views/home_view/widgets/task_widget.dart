@@ -1,8 +1,8 @@
-import 'package:app_example/database/models/task.dart';
-import 'package:app_example/database/models/task_reminder.dart';
-import 'package:app_example/style/app_colors.dart';
-import 'package:app_example/style/text_styles.dart';
-import 'package:app_example/widgets/wrapper_widget.dart';
+import 'package:task_reminder/database/models/task.dart';
+import 'package:task_reminder/database/models/task_reminder.dart';
+import 'package:task_reminder/style/app_colors.dart';
+import 'package:task_reminder/style/text_styles.dart';
+import 'package:task_reminder/widgets/wrapper_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:timeago/timeago.dart' as timeago;

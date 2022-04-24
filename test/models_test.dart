@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:app_example/database/models/skip_configuration.dart';
-import 'package:app_example/database/models/task.dart';
-import 'package:app_example/database/models/task_reminder.dart';
-import 'package:app_example/database/models/task_reminder_configuration.dart';
+import 'package:task_reminder/database/models/skip_configuration.dart';
+import 'package:task_reminder/database/models/task.dart';
+import 'package:task_reminder/database/models/task_reminder.dart';
+import 'package:task_reminder/database/models/task_reminder_configuration.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:timezone/timezone.dart' as tz;
 

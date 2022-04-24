@@ -1,8 +1,8 @@
-import 'package:app_example/database/database_service.dart';
-import 'package:app_example/notification/notification_service.dart';
-import 'package:app_example/notification/reminder_service.dart';
-import 'package:app_example/providers/reminder_update_state_provider.dart';
-import 'package:app_example/providers/task_list_provider.dart';
+import 'package:task_reminder/database/database_service.dart';
+import 'package:task_reminder/notification/notification_service.dart';
+import 'package:task_reminder/notification/reminder_service.dart';
+import 'package:task_reminder/providers/reminder_update_state_provider.dart';
+import 'package:task_reminder/providers/task_list_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 

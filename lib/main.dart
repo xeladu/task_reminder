@@ -1,8 +1,8 @@
-import 'package:app_example/dependency_setup.dart';
-import 'package:app_example/navigation/navigation_service.dart';
-import 'package:app_example/navigation/route_generator.dart';
-import 'package:app_example/notification/notification_service.dart';
-import 'package:app_example/style/app_colors.dart';
+import 'package:task_reminder/dependency_setup.dart';
+import 'package:task_reminder/navigation/navigation_service.dart';
+import 'package:task_reminder/navigation/route_generator.dart';
+import 'package:task_reminder/notification/notification_service.dart';
+import 'package:task_reminder/style/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
@@ -23,10 +23,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Task Reminder',
         debugShowCheckedModeBanner: false,
-        navigatorKey: Get.find<NavigationService>()
-            .navigatorKey, // <-- our navigation key
+        navigatorKey: Get.find<NavigationService>().navigatorKey,
         theme: ThemeData(
             primarySwatch: Colors.blue,
             dialogBackgroundColor: AppColors.dialogBackground,

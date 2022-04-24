@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(app_example LANGUAGES CXX)
+project(task_reminder LANGUAGES CXX)
 
-set(BINARY_NAME "app_example")
+set(BINARY_NAME "task_reminder")
 
 cmake_policy(SET CMP0063 NEW)
 

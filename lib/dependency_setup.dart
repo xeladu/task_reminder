@@ -1,7 +1,7 @@
-import 'package:app_example/database/database_service.dart';
-import 'package:app_example/navigation/navigation_service.dart';
-import 'package:app_example/notification/notification_service.dart';
-import 'package:app_example/notification/reminder_service.dart';
+import 'package:task_reminder/database/database_service.dart';
+import 'package:task_reminder/navigation/navigation_service.dart';
+import 'package:task_reminder/notification/notification_service.dart';
+import 'package:task_reminder/notification/reminder_service.dart';
 import 'package:get/get.dart';
 
 class DependencySetup {

@@ -1,5 +1,5 @@
-import 'package:app_example/database/models/task_reminder_configuration.dart';
-import 'package:app_example/database/models/task_reminder.dart';
+import 'package:task_reminder/database/models/task_reminder_configuration.dart';
+import 'package:task_reminder/database/models/task_reminder.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:timezone/timezone.dart' as tz;
