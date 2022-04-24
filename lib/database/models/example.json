@@ -1,0 +1,57 @@
+[
+    { 
+        "id": "taskId1",
+        "title": "test title 1",
+        "description": "test description 1",
+        "created": "20220220T200000+0100",
+        "configuration": {
+            "initialDate": "20220220T200000+0100",
+            "recurringInterval": 86400,
+            "enabled": true,
+            "skipOn": {
+                "monday": false,
+                "tuesday": false,
+                "wednesday": false,
+                "thursday": false,
+                "friday": false,
+                "saturday": true,
+                "sunday": true
+            }
+        },
+        "reminders": [
+            {
+                "id": "taskReminderId1",
+                "scheduledOn": "20220220T200000+0100",
+                "state": 1
+            },
+            {
+                "id": "taskReminderId2",
+                "scheduledOn": "20220221T200000+0100",
+                "state": 2
+            },
+            {
+                "id": "taskReminderId3",
+                "scheduledOn": "20220222T200000+0100",
+                "state": 0
+            },
+            {
+                "id": "taskReminderId4",
+                "scheduledOn": "20220223T200000+0100",
+                "state": 0
+            }
+        ]
+    },
+    {
+        "id": "taskId2",
+        "title": "test title 2",
+        "description": "test description 2",
+        "created": "20220220T200000+0100",
+        "configuration": {
+            "initialDate": null,
+            "recurringInterval": null,
+            "enabled": false,
+            "skipOn": {}
+        },
+        "reminders": []
+    }
+]
