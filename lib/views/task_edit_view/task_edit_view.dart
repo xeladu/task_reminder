@@ -1,3 +1,4 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:task_reminder/style/app_colors.dart';
 import 'package:task_reminder/style/text_styles.dart';
 import 'package:task_reminder/views/task_edit_view/task_edit_view_model.dart';
@@ -81,7 +82,11 @@ class _State extends State<TaskEditView> {
   Widget _buildTaskDetailWidget() {
     return WrapperWidget(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("Set task details", style: TextStyles.heading),
+      Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        const FaIcon(FontAwesomeIcons.clipboardList, size: 16),
+        Container(width: 5),
+        Text("Set task details", style: TextStyles.heading)
+      ]),
       Container(height: 10),
       TextField(
         controller: _titleController,
@@ -107,7 +112,11 @@ class _State extends State<TaskEditView> {
   Widget _buildTaskReminderWidget() {
     return WrapperWidget(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("First reminder on", style: TextStyles.heading),
+      Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        const FaIcon(FontAwesomeIcons.bell, size: 16),
+        Container(width: 5),
+        Text("First reminder on", style: TextStyles.heading)
+      ]),
       Row(children: [
         Expanded(
             child: Text(DateFormat("yyyy-MM-dd HH:mm")
@@ -132,7 +141,11 @@ class _State extends State<TaskEditView> {
   Widget _buildTaskReminderNotificationSelectorWidget() {
     return WrapperWidget(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("How many reminders to schedule?", style: TextStyles.heading),
+      Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        const FaIcon(FontAwesomeIcons.calendarWeek, size: 16),
+        Container(width: 5),
+        Text("How many reminders to schedule?", style: TextStyles.heading)
+      ]),
       DropdownButtonHideUnderline(
           child: DropdownButton<int>(
               isExpanded: true,
@@ -168,7 +181,11 @@ class _State extends State<TaskEditView> {
   Widget _buildTaskSkipOptionsWidget() {
     return WrapperWidget(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("Select days to be skipped", style: TextStyles.heading),
+      Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        const FaIcon(FontAwesomeIcons.gears, size: 16),
+        Container(width: 5),
+        Text("Select days to be skipped", style: TextStyles.heading)
+      ]),
       Container(height: 10),
       SwitchListTile(
           visualDensity: VisualDensity.compact,
