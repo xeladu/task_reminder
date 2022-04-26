@@ -48,6 +48,6 @@ class HomeViewModel {
     var notificationService = Get.find<NotificationService>();
 
     await notificationService.cancelNotifications(task);
-    await notificationService.scheduleNextNotification(task);
+    await notificationService.scheduleNextNotifications(task);
   }
 }

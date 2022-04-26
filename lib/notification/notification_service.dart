@@ -39,12 +39,15 @@ class NotificationService {
   Future cancelNotifications(Task task) async {
     if (_plugin == null) await init();
 
-    _plugin?.cancel(task.id);
+    for (var reminder in task.reminders) {
+      var idString = "${task.id}000${reminder.id}";
+      _plugin?.cancel(int.parse(idString));
+    }
   }
 
-  /// Schedules a notification for the next reminder. Previous reminders should
+  /// Schedules notifications for the next reminders. Previous reminders should
   /// be cancelled before so that no conflicts occur.
-  Future scheduleNextNotification(Task task) async {
+  Future scheduleNextNotifications(Task task) async {
     if (_plugin == null) await init();
 
     var details = _createNotificationDetails(task);
@@ -55,13 +58,19 @@ class NotificationService {
 
     if (reminders.isEmpty) return null;
 
-    var reminder = reminders.first;
-    await _plugin?.zonedSchedule(task.id, task.title, task.description,
-        tz.TZDateTime.from(reminder.scheduledOn, tz.local), details,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        androidAllowWhileIdle: true,
-        payload: task.id.toString());
+    for (var reminder in reminders) {
+      var idString = "${task.id}000${reminder.id}";
+      await _plugin?.zonedSchedule(
+          int.parse(idString),
+          task.title,
+          task.description,
+          tz.TZDateTime.from(reminder.scheduledOn, tz.local),
+          details,
+          uiLocalNotificationDateInterpretation:
+              UILocalNotificationDateInterpretation.absoluteTime,
+          androidAllowWhileIdle: true,
+          payload: task.id.toString());
+    }
   }
 
   NotificationDetails _createNotificationDetails(Task task) {

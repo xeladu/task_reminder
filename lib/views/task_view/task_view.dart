@@ -6,6 +6,7 @@ import 'package:task_reminder/style/app_colors.dart';
 import 'package:task_reminder/style/text_styles.dart';
 import 'package:task_reminder/views/task_view/task_view_model.dart';
 import 'package:task_reminder/views/task_view/widgets/mark_button_widget.dart';
+import 'package:task_reminder/views/task_view/widgets/task_detail_widget.dart';
 import 'package:task_reminder/views/task_view/widgets/task_summary_widget.dart';
 import 'package:task_reminder/widgets/app_bar_button.dart';
 import 'package:task_reminder/widgets/loading_widget.dart';
@@ -15,6 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class TaskView extends ConsumerWidget {
+  static const String _dateFormat = "EEE, dd.MM.yyyy HH:mm";
   final TaskViewModel viewModel;
   const TaskView(this.viewModel, {Key? key}) : super(key: key);
 
@@ -48,20 +50,26 @@ class TaskView extends ConsumerWidget {
                       await viewModel.goToTaskEditView(task);
                       ref.refresh(taskListProvider);
                     })),
-            body: Column(children: [
-              Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 40, 10, 10),
-                  child: TaskSummaryWidget(task: task)),
-              Expanded(
-                  child: ListView.separated(
-                      padding: const EdgeInsets.all(10),
-                      separatorBuilder: (context, index) =>
-                          Container(height: 10),
-                      itemCount: task.reminders.length,
-                      itemBuilder: ((context, index) => _buildReminderWidget(
-                          task.reminders[task.reminders.length - index - 1],
-                          ref))))
-            ]));
+            body: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(children: [
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                      child: TaskSummaryWidget(task: task)),
+                  Container(height: 10),
+                  TaskDetailWidget(task: task),
+                  Container(height: 10),
+                  Expanded(
+                      child: ListView.separated(
+                          separatorBuilder: (context, index) =>
+                              Container(height: 10),
+                          itemCount: task.reminders.length,
+                          itemBuilder: ((context, index) =>
+                              _buildReminderWidget(
+                                  task.reminders[
+                                      task.reminders.length - index - 1],
+                                  ref))))
+                ])));
   }
 
   Widget _buildReminderWidget(TaskReminder reminder, WidgetRef ref) {
@@ -98,8 +106,7 @@ class TaskView extends ConsumerWidget {
                         Text("Reminder #${reminder.id}",
                             style: TextStyles.heading),
                         Text(
-                          DateFormat("dd.MM.yyyy HH:mm")
-                              .format(reminder.scheduledOn),
+                          DateFormat(_dateFormat).format(reminder.scheduledOn),
                           style: TextStyles.subHeading,
                         )
                       ])),
@@ -147,7 +154,7 @@ class TaskView extends ConsumerWidget {
                       Text("Reminder #${reminder.id}",
                           style: TextStyles.heading),
                       Text(
-                          "${DateFormat("dd.MM.yyyy HH:mm").format(reminder.scheduledOn)} (${timeago.format(reminder.scheduledOn, allowFromNow: true)})",
+                          "${DateFormat(_dateFormat).format(reminder.scheduledOn)} (${timeago.format(reminder.scheduledOn, allowFromNow: true)})",
                           style: TextStyles.subHeading),
                       Container(height: 30),
                       _buildMarkButtons(reminder, ref),

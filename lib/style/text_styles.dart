@@ -14,4 +14,6 @@ class TextStyles {
       TextStyle(fontSize: 14, color: AppColors.description);
   static TextStyle taskDescriptionSmall =
       TextStyle(fontSize: 12, color: AppColors.description);
+  static TextStyle statisticsLabel =
+      TextStyle(fontSize: 12, color: AppColors.appBackground);
 }

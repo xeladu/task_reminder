@@ -17,9 +17,9 @@ final reminderUpdateProvider = FutureProvider((ref) async {
 
   provider.whenData((taskList) async {
     for (var task in taskList) {
-      reminderService.fillReminders(task);
       await notificationService.cancelNotifications(task);
-      await notificationService.scheduleNextNotification(task);
+      reminderService.fillReminders(task);
+      await notificationService.scheduleNextNotifications(task);
       await databaseService.updateTask(task);
     }
 

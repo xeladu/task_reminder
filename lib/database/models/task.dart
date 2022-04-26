@@ -64,4 +64,31 @@ class Task extends Equatable {
   bool isValid() {
     return title.isNotEmpty;
   }
+
+  double getDoneReminderPercentage() {
+    return reminders.isNotEmpty
+        ? reminders
+                .where((rem) => rem.state == TaskReminderActionState.done)
+                .length /
+            reminders.length
+        : 0.0;
+  }
+
+  double getSkippedReminderPercentage() {
+    return reminders.isNotEmpty
+        ? reminders
+                .where((rem) => rem.state == TaskReminderActionState.skipped)
+                .length /
+            reminders.length
+        : 0.0;
+  }
+
+  double getRemainingReminderPercentage() {
+    return reminders.isNotEmpty
+        ? reminders
+                .where((rem) => rem.state == TaskReminderActionState.none)
+                .length /
+            reminders.length
+        : 0.0;
+  }
 }

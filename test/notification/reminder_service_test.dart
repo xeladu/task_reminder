@@ -1,14 +1,24 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:flutter/widgets.dart';
 import 'package:task_reminder/database/models/skip_configuration.dart';
 import 'package:task_reminder/database/models/task.dart';
 import 'package:task_reminder/database/models/task_reminder.dart';
 import 'package:task_reminder/database/models/task_reminder_configuration.dart';
 import 'package:task_reminder/notification/reminder_service.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 void main() {
+  setUpAll(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    tz.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation("Europe/Berlin"));
+
+    return Future.value();
+  });
+
   test("Missing reminders before today should be created", () {
     final now = tz.TZDateTime.now(tz.local);
     final createDate =

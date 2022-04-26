@@ -38,7 +38,10 @@ class ReminderService {
     }
 
     // create additional reminders according to the setting maxScheduledNotificationCount
-    var additionalCount = task.configuration.maxScheduledNotificationCount;
+    var additionalCount = task.configuration.maxScheduledNotificationCount -
+        task.reminders
+            .where((rem) => rem.scheduledOn.isAfter(DateTime.now()))
+            .length;
 
     while (additionalCount > 0) {
       var nextScheduledReminder = latestScheduledReminder.add(interval);
