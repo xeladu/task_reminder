@@ -22,9 +22,10 @@ The app was initially developed during a blog series documenting the implementat
 
 ## Support
 
-If you like the app, feel free to support me in any way ❤
+If you like this post or my work in general, feel free to support me in any way ❤
 
-- You can [contribute by working on an open issue](https://github.com/xeladu/task_reminder/issues) 🛠
+- You can [become a Medium member via my referral link](https://xeladu.medium.com/membership) for just $5 a month! 💖
 - You can [buy me a coffee](https://www.buymeacoffee.com/xeladu) ☕
-- You can [donate via PayPal](https://www.paypal.com/donate/?hosted_button_id=JPWK39GGPAAFQ) 🎁
-- You can [become a Medium member with my referral link](https://medium.com/@xeladu/membership) 📣
+- You can [browse my Gumroad store](https://xeladu.gumroad.com) for ebooks and freebies 📙
+- You can [join my free monthly Medium Newsletter](https://bit.ly/xeladu-medium) 💌
+- You can [find all my published stuff here](https://xeladu.medium.com/%E2%84%B9-xeladus-info-point-find-quickly-what-you-need-bbe620e97d8c) 📑
