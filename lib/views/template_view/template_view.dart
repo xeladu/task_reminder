@@ -14,7 +14,6 @@ import 'package:task_reminder/widgets/empty_data_widget.dart';
 import 'package:task_reminder/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:task_reminder/widgets/task_widget.dart';
 
 class TemplateView extends ConsumerStatefulWidget {
   final TemplateViewModel viewModel;
@@ -68,7 +67,7 @@ class _State extends ConsumerState<TemplateView> {
                 onConfirmDismiss: (dir) async => await widget.viewModel
                     .isDeletionConfirmed(data[index], context),
                 onDismissed: (dir) async {
-                  await widget.viewModel.deleteTask(data[index]);
+                  await widget.viewModel.deleteTemplate(data[index]);
                   ref.refresh(templateListProvider);
                 },
                 onTap: () async =>

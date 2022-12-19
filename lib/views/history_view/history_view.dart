@@ -13,7 +13,6 @@ import 'package:task_reminder/widgets/empty_data_widget.dart';
 import 'package:task_reminder/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:task_reminder/widgets/task_widget.dart';
 
 class HistoryView extends ConsumerStatefulWidget {
   final HistoryViewModel viewModel;

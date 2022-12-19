@@ -1,7 +1,5 @@
 enum DialogSource { homeView, templateView, historyView, template }
 
-enum SnackBarType { info, error }
-
 class DialogUtils {
   static String getHelpTextBySource(DialogSource source) {
     switch (source) {
