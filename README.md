@@ -22,7 +22,12 @@ Task Reminder is an app to create and track recurring tasks on a daily basis. Yo
 
 ## Screenshots
 
-Coming soon...
+<p align="center">
+  <img width="23%" alt="Firebase Authentication" src="images/1.png" />
+  <img width="23%" alt="Firebase Cloud Firestore" src="images/2.png" />
+  <img width="23%" alt="Firebase Cloud Functions" src="images/3.png" />
+  <img width="23%" alt="Firebase Cloud Functions" src="images/4.png" />
+</p>
 
 ## Apps
 
