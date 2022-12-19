@@ -18,7 +18,7 @@ You need to download the code and the compile the app yourself. Connect your dev
 
 ## History
 
-The app was initially developed during a blog series documenting the implementation process of a Flutter application from scratch. The original code is still available as well as all related blog posts. If you are interested, check out the [original repository](https://github.com/xeladu/flutter_task_reminder).
+The app was initially developed during a blog series documenting the implementation process of a Flutter application from scratch. The original code is still available as well as all related blog posts. If you are interested, check out the [original repository](https://github.com/xeladu/flutter_app_example).
 
 ## Support
 

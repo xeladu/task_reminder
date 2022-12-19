@@ -4,5 +4,5 @@ import 'package:get/get.dart';
 
 // returns all tasks from the database
 final taskListProvider = FutureProvider((ref) async {
-  return await Get.find<DatabaseService>().getAllTasks();
+  return await Get.find<DatabaseService>().getAllOpenTasks();
 });

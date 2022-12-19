@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:task_reminder/dependency_setup.dart';
 import 'package:task_reminder/navigation/navigation_service.dart';
 import 'package:task_reminder/navigation/route_generator.dart';
@@ -10,6 +11,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
 
   await DependencySetup.registerDependencies();
   await Hive.initFlutter();
@@ -27,7 +30,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         navigatorKey: Get.find<NavigationService>().navigatorKey,
         theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: AppColors.primarySwatch,
             dialogBackgroundColor: AppColors.dialogBackground,
             scaffoldBackgroundColor: AppColors.appBackground),
         onGenerateRoute: (settings) =>

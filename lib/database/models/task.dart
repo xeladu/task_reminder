@@ -1,26 +1,25 @@
-import 'package:task_reminder/database/models/task_reminder_configuration.dart';
-import 'package:task_reminder/database/models/task_reminder.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 @immutable
 class Task extends Equatable {
-  const Task({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.created,
-    required this.configuration,
-    required this.reminders,
-  });
+  const Task(
+      {required this.id,
+      required this.title,
+      required this.description,
+      required this.created,
+      required this.category,
+      this.completed,
+      this.template = false});
 
   final int id;
   final String title;
   final String description;
   final tz.TZDateTime created;
-  final TaskReminderConfiguration configuration;
-  final List<TaskReminder> reminders;
+  final String category;
+  final tz.TZDateTime? completed;
+  final bool template;
 
   Task.empty()
       : this(
@@ -28,67 +27,55 @@ class Task extends Equatable {
             title: "",
             description: "",
             created: tz.TZDateTime.now(tz.local),
-            configuration: const TaskReminderConfiguration.empty(),
-            reminders: <TaskReminder>[]);
+            category: "",
+            completed: null,
+            template: false);
 
   factory Task.fromJson(Map<String, dynamic> json) => Task(
-        id: json.containsKey("id") ? json["id"] : "",
-        title: json.containsKey("title") ? json["title"] : "",
-        description: json.containsKey("description") ? json["description"] : "",
-        created: json.containsKey("created")
-            ? tz.TZDateTime.fromMillisecondsSinceEpoch(
-                tz.local, json["created"])
-            : tz.TZDateTime.fromMillisecondsSinceEpoch(tz.local, 1),
-        configuration: json.containsKey("configuration")
-            ? TaskReminderConfiguration.fromJson(json["configuration"])
-            : const TaskReminderConfiguration.empty(),
-        reminders: json.containsKey("reminders")
-            ? List<TaskReminder>.from(
-                json["reminders"].map((x) => TaskReminder.fromJson(x)))
-            : <TaskReminder>[],
-      );
+      id: json.containsKey("id") ? json["id"] : 0,
+      title: json.containsKey("title") ? json["title"] : "",
+      description: json.containsKey("description") ? json["description"] : "",
+      category: json.containsKey("category") ? json["category"] : "",
+      created: json.containsKey("created")
+          ? tz.TZDateTime.fromMillisecondsSinceEpoch(tz.local, json["created"])
+          : tz.TZDateTime.fromMillisecondsSinceEpoch(tz.local, 1),
+      completed: json.containsKey("completed") && json["completed"] > 0
+          ? tz.TZDateTime.fromMillisecondsSinceEpoch(
+              tz.local, json["completed"])
+          : null,
+      template:
+          json.containsKey("template") ? json["template"] as bool : false);
+
+  Task copyWith({int? newId, tz.TZDateTime? completedDate, bool? isTemplate}) =>
+      Task(
+          category: category,
+          id: newId ?? id,
+          created: created,
+          description: description,
+          title: title,
+          completed: completedDate,
+          template: isTemplate ?? template);
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
         "description": description,
         "created": created.millisecondsSinceEpoch,
-        "configuration": configuration.toJson(),
-        "reminders": List<dynamic>.from(reminders.map((x) => x.toJson())),
+        "category": category,
+        "completed": completed == null ? 0 : completed!.millisecondsSinceEpoch,
+        "template": template
       };
 
   @override
   List<Object?> get props =>
-      [id, title, description, created, configuration, reminders];
+      [id, title, description, created, completed, category, template];
+
+  @override
+  String toString() {
+    return "$title, $id, $category, $completed";
+  }
 
   bool isValid() {
     return title.isNotEmpty;
-  }
-
-  double getDoneReminderPercentage() {
-    return reminders.isNotEmpty
-        ? reminders
-                .where((rem) => rem.state == TaskReminderActionState.done)
-                .length /
-            reminders.length
-        : 0.0;
-  }
-
-  double getSkippedReminderPercentage() {
-    return reminders.isNotEmpty
-        ? reminders
-                .where((rem) => rem.state == TaskReminderActionState.skipped)
-                .length /
-            reminders.length
-        : 0.0;
-  }
-
-  double getRemainingReminderPercentage() {
-    return reminders.isNotEmpty
-        ? reminders
-                .where((rem) => rem.state == TaskReminderActionState.none)
-                .length /
-            reminders.length
-        : 0.0;
   }
 }

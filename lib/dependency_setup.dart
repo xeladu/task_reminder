@@ -1,7 +1,7 @@
 import 'package:task_reminder/database/database_service.dart';
+import 'package:task_reminder/dialogs/dialog_service.dart';
 import 'package:task_reminder/navigation/navigation_service.dart';
 import 'package:task_reminder/notification/notification_service.dart';
-import 'package:task_reminder/notification/reminder_service.dart';
 import 'package:get/get.dart';
 
 class DependencySetup {
@@ -11,6 +11,6 @@ class DependencySetup {
         () => Future.value(NavigationService()));
     await Get.putAsync<NotificationService>(
         () => Future.value(NotificationService()));
-    await Get.putAsync<ReminderService>(() => Future.value(ReminderService()));
+    await Get.putAsync<DialogService>(() => Future.value(DialogService()));
   }
 }

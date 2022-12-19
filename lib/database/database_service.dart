@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:task_reminder/database/models/task.dart';
 import 'package:hive/hive.dart';
@@ -6,17 +7,54 @@ import 'package:hive/hive.dart';
 class DatabaseService {
   static const boxId = "tasks";
 
-  Future<List<Task>> getAllTasks() async {
+  Future<List<Task>> getAllOpenTasks() async {
     var box = await Hive.openBox(boxId);
-    var res =
-        box.values.map((entry) => Task.fromJson(jsonDecode(entry))).toList();
+    var res = box.values
+        .map((entry) => Task.fromJson(jsonDecode(entry)))
+        .where((task) => task.completed == null && !task.template)
+        .toList();
     await box.close();
 
     return res;
   }
 
+  Future<List<Task>> getAllCompletedTasks() async {
+    var box = await Hive.openBox(boxId);
+    var res = box.values
+        .map((entry) => Task.fromJson(jsonDecode(entry)))
+        .where((task) => task.completed != null)
+        .toList();
+
+    res.sort((t1, t2) => t1.completed!.isBefore(t2.completed!) ? 1 : -1);
+    await box.close();
+
+    return res;
+  }
+
+  Future<List<Task>> getAllTemplateTasks() async {
+    var box = await Hive.openBox(boxId);
+    var res = box.values
+        .map((entry) => Task.fromJson(jsonDecode(entry)))
+        .where((task) => task.template)
+        .toList();
+    await box.close();
+
+    return res;
+  }
+
+  Future<int> getNewTaskId() async {
+    var box = await Hive.openBox(boxId);
+    var res =
+        box.values.map((entry) => Task.fromJson(jsonDecode(entry))).toList();
+    await box.close();
+
+    final highestId = res.isEmpty ? 1 : res.map((e) => e.id).reduce(max) + 1;
+
+    return highestId;
+  }
+
   Future<Task> getTaskById(int id) async {
-    return (await getAllTasks())
+    return (await getAllOpenTasks())
         .firstWhere((element) => element.id == id, orElse: () => Task.empty());
   }
 

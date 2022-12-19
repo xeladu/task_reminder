@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:task_reminder/navigation/navigation_service.dart';
 
 class ErrorView extends StatelessWidget {
   const ErrorView({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class ErrorView extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.5,
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             ElevatedButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Get.find<NavigationService>().goBack(),
                 child: const Text("Go back")),
           ]),
         )));

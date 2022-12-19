@@ -6,7 +6,7 @@ class NavigationService {
     await navigatorKey.currentState!.pushNamed(routeName, arguments: arguments);
   }
 
-  void pop() {
-    navigatorKey.currentState!.pop();
+  void goBack<T>({T? result}) {
+    navigatorKey.currentState!.pop(result);
   }
 }

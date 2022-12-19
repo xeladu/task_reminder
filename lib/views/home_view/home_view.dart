@@ -1,20 +1,24 @@
+import 'dart:collection';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:task_reminder/database/models/task.dart';
-import 'package:task_reminder/navigation/navigation_service.dart';
-import 'package:task_reminder/navigation/route_generator.dart';
-import 'package:task_reminder/notification/notification_service.dart';
+import 'package:task_reminder/dialogs/dialog_service.dart';
+import 'package:task_reminder/dialogs/dialog_utils.dart';
+import 'package:task_reminder/providers/completed_task_list_provider.dart';
 import 'package:task_reminder/providers/reminder_update_provider.dart';
 import 'package:task_reminder/providers/reminder_update_state_provider.dart';
 import 'package:task_reminder/providers/task_list_provider.dart';
-import 'package:task_reminder/style/app_colors.dart';
+import 'package:task_reminder/providers/template_list_provider.dart';
 import 'package:task_reminder/style/text_styles.dart';
 import 'package:task_reminder/views/home_view/home_view_model.dart';
-import 'package:task_reminder/views/home_view/widgets/task_widget.dart';
-import 'package:task_reminder/widgets/app_bar_button.dart';
+import 'package:task_reminder/views/home_view/widgets/grouped_dismissible_list_widget.dart';
+import 'package:task_reminder/widgets/action_button_widget.dart';
+import 'package:task_reminder/widgets/empty_data_widget.dart';
 import 'package:task_reminder/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
+import 'package:task_reminder/widgets/snack_bar_builder.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   final HomeViewModel viewModel;
@@ -26,16 +30,7 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class _State extends ConsumerState<HomeView> {
-  @override
-  void initState() {
-    super.initState();
-
-    // navigates to the task page with the given id
-    NotificationService.notificationsList.stream.listen((event) {
-      Get.find<NavigationService>()
-          .navigateTo(RouteGenerator.routeTask, arguments: int.parse(event));
-    });
-  }
+  final String _heading = "All tasks";
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +39,7 @@ class _State extends ConsumerState<HomeView> {
     return provider.when(
         loading: _buildLoadingContent,
         error: _buildErrorContent,
-        data: (data) => _buildDataContent(data, ref));
+        data: (data) => _buildDataContent(data));
   }
 
   Widget _buildLoadingContent() {
@@ -55,73 +50,74 @@ class _State extends ConsumerState<HomeView> {
     return Scaffold(body: ErrorWidget(o.toString()));
   }
 
-  Widget _buildDataContent(List<Task> data, WidgetRef ref) {
+  Widget _buildDataContent(List<Task> data) {
     return Scaffold(
-        bottomNavigationBar: BottomAppBar(
-            color: AppColors.taskBackground,
-            child: AppBarButton(
-                icon: FontAwesomeIcons.plus,
-                onPressed: () async {
-                  await widget.viewModel.addNewTask(ref);
-                  ref.refresh(taskListProvider);
-                })),
-        body: data.isEmpty
-            ? _buildEmptyDataContent()
-            : Stack(children: [
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 40, 10, 10),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("You have ${data.length} tasks",
-                              style: TextStyles.heading),
-                          Container(height: 10),
-                          Expanded(
-                              child: GridView.builder(
-                                  padding: EdgeInsets.zero,
-                                  itemCount: data.length,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          crossAxisSpacing: 10.0,
-                                          mainAxisSpacing: 10.0),
-                                  itemBuilder: (context, index) {
-                                    final item = data[index];
+        body: Stack(children: [
+      Padding(
+          padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            _buildActionBar(),
+            Container(height: 10),
+            data.isEmpty ? _buildEmptyDataContent() : _buildTaskList(data)
+          ])),
+      _buildUpdateIndicator()
+    ]));
+  }
 
-                                    return TaskWidget(
-                                        task: item,
-                                        onLongPress: () async {
-                                          if (!await widget.viewModel
-                                              .isDeleteConfirmed(
-                                                  item, context)) {
-                                            return;
-                                          }
+  Widget _buildTaskList(List<Task> data) {
+    var items = _groupData(data);
+    return Expanded(
+        child: GroupedDismissibleListWidget(
+            onLongPress: (item) async {
+              await widget.viewModel.showOptionsDialog(context, item);
+              ref.refresh(taskListProvider);
+            },
+            items: items,
+            onTap: (item) async {
+              await widget.viewModel.goToTaskEditView(item);
+              await widget.viewModel.updateNotification(ref);
+              ref.refresh(taskListProvider);
+            },
+            onConfirmDismiss: (item) async =>
+                await widget.viewModel.isCompletionConfirmed(item, context),
+            onDismissed: (item) => _handleDismissed(item)));
+  }
 
-                                          await widget.viewModel
-                                              .deleteTask(item);
-                                          ref.refresh(taskListProvider);
-                                        },
-                                        onTap: () async {
-                                          await widget.viewModel
-                                              .goToTaskView(item.id);
-                                          await widget.viewModel
-                                              .updateNotification(item);
-                                          ref.refresh(taskListProvider);
-                                        });
-                                  }))
-                        ])),
-                _buildUpdateIndicator()
-              ]));
+  Widget _buildActionBar() {
+    return Row(children: [
+      Text(_heading, style: TextStyles.heading),
+      const Spacer(),
+      ActionButtonWidget(
+          onPressed: () async {
+            await widget.viewModel.addNewTask(ref);
+            ref.refresh(taskListProvider);
+          },
+          icon: FontAwesomeIcons.plus),
+      const SizedBox(width: 10),
+      ActionButtonWidget(
+          onPressed: () => Get.find<DialogService>()
+              .showHelpDialog(context, DialogSource.homeView),
+          icon: FontAwesomeIcons.solidCircleQuestion),
+      const SizedBox(width: 10),
+      ActionButtonWidget(
+          onPressed: () async {
+            ref.refresh(completedTaskListProvider);
+            await widget.viewModel.goToHistoryView();
+          },
+          icon: FontAwesomeIcons.clockRotateLeft),
+      const SizedBox(width: 10),
+      ActionButtonWidget(
+          onPressed: () async {
+            ref.refresh(templateListProvider);
+            await widget.viewModel.goToTemplateView();
+          },
+          icon: FontAwesomeIcons.solidCopy)
+    ]);
   }
 
   Widget _buildEmptyDataContent() {
-    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      FaIcon(FontAwesomeIcons.triangleExclamation,
-          size: 48, color: AppColors.warning),
-      Container(height: 10),
-      Text("No data found!\r\nCreate your first task right now!",
-          style: TextStyles.heading, textAlign: TextAlign.center)
-    ]);
+    return const EmptyDataWidget(message: "No data found!");
   }
 
   Widget _buildUpdateIndicator() {
@@ -141,5 +137,27 @@ class _State extends ConsumerState<HomeView> {
                     borderRadius: BorderRadius.circular(10)),
                 padding: const EdgeInsets.all(10),
                 child: const Text("Updating reminders..."))));
+  }
+
+  Map<String, List<Task>> _groupData(List<Task> data) {
+    var res = SplayTreeMap<String, List<Task>>();
+
+    for (var item in data) {
+      var category = item.category.isEmpty ? "---" : item.category;
+
+      if (!res.containsKey(category)) res[category] = <Task>[];
+
+      res[category]!.add(item);
+    }
+
+    return res;
+  }
+
+  void _handleDismissed(Task item) {
+    widget.viewModel.markAsCompleted(item);
+    widget.viewModel.updateNotification(ref);
+    ref.refresh(taskListProvider);
+
+    widget.viewModel.showNotification(context, "Task completed");
   }
 }

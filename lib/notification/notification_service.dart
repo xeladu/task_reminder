@@ -1,13 +1,15 @@
 import 'dart:async';
 
-import 'package:task_reminder/database/models/task.dart';
-import 'package:task_reminder/database/models/task_reminder.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/timezone.dart';
 
 class NotificationService {
+  static const String _notificationId = "1";
+  static const String _channelId = "Daily Tasks";
+
   FlutterLocalNotificationsPlugin? _plugin;
   static final StreamController<String> notificationsList =
       StreamController<String>();
@@ -35,49 +37,39 @@ class NotificationService {
     tz.setLocalLocation(tz.getLocation(timeZone));
   }
 
-  /// Cancels all scheduled notifications for a task
-  Future cancelNotifications(Task task) async {
+  Future cancelNotification() async {
     if (_plugin == null) await init();
 
-    for (var reminder in task.reminders) {
-      var idString = "${task.id}000${reminder.id}";
-      _plugin?.cancel(int.parse(idString));
-    }
+    _plugin?.cancel(int.parse(_notificationId));
   }
 
-  /// Schedules notifications for the next reminders. Previous reminders should
-  /// be cancelled before so that no conflicts occur.
-  Future scheduleNextNotifications(Task task) async {
+  Future scheduleNextNotification(int taskCount) async {
+    String title = "Your daily task reminder";
+    String description =
+        "You have $taskCount tasks for today! Click here to see them";
+
     if (_plugin == null) await init();
 
-    var details = _createNotificationDetails(task);
+    var details = _createNotificationDetails(title);
 
-    var reminders = task.reminders.where((r) =>
-        r.scheduledOn.isAfter(DateTime.now()) &&
-        r.state == TaskReminderActionState.none);
+    // 9 am Berlin time the next day
+    var now = DateTime.now();
+    var scheduled = TZDateTime.local(now.year, now.month, now.day, 9, 0)
+        .add(const Duration(days: 1));
 
-    if (reminders.isEmpty) return null;
-
-    for (var reminder in reminders) {
-      var idString = "${task.id}000${reminder.id}";
-      await _plugin?.zonedSchedule(
-          int.parse(idString),
-          task.title,
-          task.description,
-          tz.TZDateTime.from(reminder.scheduledOn, tz.local),
-          details,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime,
-          androidAllowWhileIdle: true,
-          payload: task.id.toString());
-    }
+    await _plugin?.zonedSchedule(
+        int.parse(_notificationId), title, description, scheduled, details,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        androidAllowWhileIdle: true,
+        payload: _notificationId);
   }
 
-  NotificationDetails _createNotificationDetails(Task task) {
+  NotificationDetails _createNotificationDetails(String title) {
     return NotificationDetails(
-        android: AndroidNotificationDetails(task.id.toString(), task.title,
-            channelDescription: task.description,
-            importance: Importance.high,
-            priority: Priority.high));
+        android: AndroidNotificationDetails(_notificationId, title,
+            channelDescription: _channelId,
+            importance: Importance.defaultImportance,
+            priority: Priority.defaultPriority));
   }
 }
