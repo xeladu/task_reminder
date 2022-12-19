@@ -1,16 +1,28 @@
 # Task Reminder
 
-Task Reminder is an app to create and task recurring tasks on a daily basis. You will receive reminders in case you missed one of your tasks for the day. A dashboard shows details of each task, its completion rate and the next due date.
+Task Reminder is an app to create and track recurring tasks on a daily basis. You will receive a reminder every day at 9am about the amount of open tasks. The UI is quite simple and there is no cloud service or tracking involved.
 
 ## Features
 
-- Create recurring tasks on a daily basis
-- Keep track of your daily goals
-- Reminders for not completed tasks of the day
-- Statistics about completed and missed task executions
+- Create daily tasks and task groups
+- Define templates to create frequent tasks more quickly
+- Reminder for not completed tasks of the day
 - Works completely offline
 - Storage on local device
 - No data collection
+
+## Tech stack
+
+- Framework/Language: [Flutter/Dart](https://flutter.dev/)
+- State management: [Riverpod](https://riverpod.dev/)
+- Dependency Injection: [Get](https://pub.dev/packages/get)
+- Data storage: [Hive](https://pub.dev/packages/hive)
+- Architecture: [MVVM](https://medium.com/flutterworld/flutter-mvvm-architecture-f8bed2521958)
+- Notifications: [Flutter Local Notifications](https://pub.dev/packages/flutter_local_notifications#scheduled-android-notifications)
+
+## Screenshots
+
+Coming soon...
 
 ## Apps
 
