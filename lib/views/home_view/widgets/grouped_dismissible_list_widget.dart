@@ -75,7 +75,6 @@ class _GroupedDismissibleListWidgetState
         sectionsCount: widget.items.keys.length,
         countOfItemInSection: (section) =>
             widget.items.values.toList()[section].length,
-        //separatorBuilder: (context, index) => const SizedBox(height: 10),
         itemBuilder: (context, entry) {
           final section = widget.items.keys.toList()[entry.section];
 
