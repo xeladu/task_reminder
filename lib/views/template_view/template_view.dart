@@ -4,6 +4,8 @@ import 'package:task_reminder/database/models/task.dart';
 import 'package:task_reminder/dialogs/dialog_service.dart';
 import 'package:task_reminder/dialogs/dialog_utils.dart';
 import 'package:task_reminder/navigation/navigation_service.dart';
+import 'package:task_reminder/providers/reminder_update_provider.dart';
+import 'package:task_reminder/providers/reminder_update_state_provider.dart';
 import 'package:task_reminder/providers/task_list_provider.dart';
 import 'package:task_reminder/providers/template_list_provider.dart';
 import 'package:task_reminder/style/text_styles.dart';
@@ -47,17 +49,20 @@ class _State extends ConsumerState<TemplateView> {
 
   Widget _buildDataContent(List<Task> data, WidgetRef ref) {
     return Scaffold(
-        body: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              _buildActionBar(),
-              Container(height: 10),
-              data.isEmpty ? _buildEmptyDataContent() : _buildTaskList(data)
-            ])));
+        body: Stack(children: [
+      Padding(
+          padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            _buildActionBar(),
+            Container(height: 10),
+            data.isEmpty ? _buildEmptyDataContent() : _buildTemplateList(data)
+          ])),
+      _buildUpdateIndicator()
+    ]));
   }
 
-  Widget _buildTaskList(List<Task> data) {
+  Widget _buildTemplateList(List<Task> data) {
     return Expanded(
         child: ListView.separated(
             padding: EdgeInsets.zero,
@@ -74,7 +79,7 @@ class _State extends ConsumerState<TemplateView> {
                     await widget.viewModel.goToTaskEditView(data[index]),
                 onLongPress: () async {
                   await widget.viewModel
-                      .showOptionsDialog(context, data[index]);
+                      .showOptionsDialog(context, data[index], ref);
                   ref.refresh(templateListProvider);
                 },
                 backgroundLabel: "swipe\r\nto\r\ndelete")),
@@ -102,5 +107,24 @@ class _State extends ConsumerState<TemplateView> {
   Widget _buildEmptyDataContent() {
     return const EmptyDataWidget(
         message: "You haven't defined any templates yet!");
+  }
+
+  Widget _buildUpdateIndicator() {
+    final updateDone = ref.watch(reminderUpdateStateProvider);
+
+    if (updateDone) return const SizedBox();
+
+    final provider = ref.watch(reminderUpdateProvider);
+    return provider.when(
+        data: (data) => const SizedBox(),
+        error: (o, s) => const SizedBox(),
+        loading: () => Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(10)),
+                padding: const EdgeInsets.all(10),
+                child: const Text("Updating reminders..."))));
   }
 }

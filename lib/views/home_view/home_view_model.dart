@@ -2,8 +2,6 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:task_reminder/base/base_view_model.dart';
 import 'package:task_reminder/database/models/task.dart';
 import 'package:task_reminder/navigation/route_generator.dart';
-import 'package:task_reminder/providers/reminder_update_state_provider.dart';
-import 'package:task_reminder/providers/task_list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:task_reminder/widgets/dialog_button_widget.dart';
@@ -42,8 +40,6 @@ class HomeViewModel extends BaseViewModel {
 
     await navigationService.navigateTo(RouteGenerator.routeTaskEdit,
         arguments: {"task": null, "newId": highestId + 1});
-
-    ref.read(reminderUpdateStateProvider.notifier).state = false;
   }
 
   Future markAsCompleted(Task task) async {
@@ -57,13 +53,5 @@ class HomeViewModel extends BaseViewModel {
     return await dialogService.showConfirmationDialog(context,
             "Do you really want to mark the task '${task.title}' as completed?") ==
         OkCancelResult.ok;
-  }
-
-  Future updateNotification(WidgetRef ref) async {
-    final tasks = ref.watch(taskListProvider);
-
-    await notificationService.cancelNotification();
-    await notificationService
-        .scheduleNextNotification(tasks.asData!.value.length);
   }
 }

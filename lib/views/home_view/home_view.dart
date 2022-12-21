@@ -90,6 +90,7 @@ class _State extends ConsumerState<HomeView> {
       ActionButtonWidget(
           onPressed: () async {
             await widget.viewModel.addNewTask(ref);
+            await widget.viewModel.updateNotification(ref);
             ref.refresh(taskListProvider);
           },
           icon: FontAwesomeIcons.plus),
@@ -122,12 +123,12 @@ class _State extends ConsumerState<HomeView> {
   Widget _buildUpdateIndicator() {
     final updateDone = ref.watch(reminderUpdateStateProvider);
 
-    if (updateDone) return Container();
+    if (updateDone) return const SizedBox();
 
     final provider = ref.watch(reminderUpdateProvider);
     return provider.when(
-        data: (data) => Container(),
-        error: (o, s) => Container(),
+        data: (data) => const SizedBox(),
+        error: (o, s) => const SizedBox(),
         loading: () => Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -139,7 +140,7 @@ class _State extends ConsumerState<HomeView> {
   }
 
   Map<String, List<Task>> _groupData(List<Task> data) {
-    var res = SplayTreeMap<String, List<Task>>();
+    final res = SplayTreeMap<String, List<Task>>();
 
     for (var item in data) {
       var category = item.category.isEmpty ? "---" : item.category;

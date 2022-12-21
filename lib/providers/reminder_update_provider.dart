@@ -1,11 +1,9 @@
 import 'package:task_reminder/notification/notification_service.dart';
-import 'package:task_reminder/providers/reminder_update_state_provider.dart';
 import 'package:task_reminder/providers/task_list_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 
-/// Initializes the notification service, reschedules the next notification
-/// for every task, and marks the app state as updated
+/// Schedules the next notification
 final reminderUpdateProvider = FutureProvider((ref) async {
   var notificationService = Get.find<NotificationService>();
 
@@ -14,7 +12,5 @@ final reminderUpdateProvider = FutureProvider((ref) async {
   provider.whenData((taskList) async {
     await notificationService.cancelNotification();
     await notificationService.scheduleNextNotification(taskList.length);
-
-    ref.read(reminderUpdateStateProvider.notifier).state = true;
   });
 });

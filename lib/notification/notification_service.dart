@@ -44,6 +44,8 @@ class NotificationService {
   }
 
   Future scheduleNextNotification(int taskCount) async {
+    if (taskCount == 0) return;
+
     String title = "Your daily task reminder";
     String description =
         "You have $taskCount tasks for today! Click here to see them";

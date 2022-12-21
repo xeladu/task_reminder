@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:task_reminder/database/database_service.dart';
 import 'package:task_reminder/database/models/task.dart';
@@ -6,6 +7,7 @@ import 'package:task_reminder/dialogs/dialog_service.dart';
 import 'package:task_reminder/navigation/navigation_service.dart';
 import 'package:task_reminder/navigation/route_generator.dart';
 import 'package:task_reminder/notification/notification_service.dart';
+import 'package:task_reminder/providers/reminder_update_provider.dart';
 import 'package:task_reminder/widgets/snack_bar_builder.dart';
 
 abstract class BaseViewModel {
@@ -42,5 +44,9 @@ abstract class BaseViewModel {
   void showNotification(BuildContext context, String message) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBarBuilder.buildDefaultSnackBar(message));
+  }
+
+  Future updateNotification(WidgetRef ref) async {
+    ref.refresh(reminderUpdateProvider);
   }
 }

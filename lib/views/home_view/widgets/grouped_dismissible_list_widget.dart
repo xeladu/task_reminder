@@ -75,20 +75,23 @@ class _GroupedDismissibleListWidgetState
         sectionsCount: widget.items.keys.length,
         countOfItemInSection: (section) =>
             widget.items.values.toList()[section].length,
-        separatorBuilder: (context, index) => const SizedBox(height: 10),
+        //separatorBuilder: (context, index) => const SizedBox(height: 10),
         itemBuilder: (context, entry) {
           final section = widget.items.keys.toList()[entry.section];
 
           if (_hiddenCategories.contains(section)) return const SizedBox();
 
           final item = widget.items[section]![entry.index];
-          return DismissibleTaskWidget(
-              onLongPress: () => widget.onLongPress!(item),
-              onConfirmDismiss: (dir) => widget.onConfirmDismiss(item),
-              onDismissed: (dir) => widget.onDismissed(item),
-              task: item,
-              onTap: () => widget.onTap(item),
-              hideCategory: true);
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: DismissibleTaskWidget(
+                onLongPress: () => widget.onLongPress!(item),
+                onConfirmDismiss: (dir) => widget.onConfirmDismiss(item),
+                onDismissed: (dir) => widget.onDismissed(item),
+                task: item,
+                onTap: () => widget.onTap(item),
+                hideCategory: true),
+          );
         });
   }
 }

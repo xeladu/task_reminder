@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:task_reminder/base/base_view_model.dart';
 import 'package:task_reminder/database/models/task.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,8 @@ class TemplateViewModel extends BaseViewModel {
         OkCancelResult.ok;
   }
 
-  Future showOptionsDialog(BuildContext context, Task task) async {
+  Future showOptionsDialog(
+      BuildContext context, Task task, WidgetRef ref) async {
     final options = <DialogButtonWidget>[];
     options.add(DialogButtonWidget(
         onPressed: () async => await goToTaskEditView(task),
@@ -19,6 +21,7 @@ class TemplateViewModel extends BaseViewModel {
     options.add(DialogButtonWidget(
         onPressed: () async {
           await addTaskCopyToDatabase(task);
+          await updateNotification(ref);
           showNotification(context, "Task created");
         },
         label: "Create task from template"));
